@@ -10,8 +10,8 @@
 
 
 @interface TextGlowDemoViewController : UIViewController {
-	RRSGlowLabel *label;
-	UISlider *glowSlider;
+    RRSGlowLabel *label;
+    UISlider *glowSlider;
 }
 
 @property (nonatomic, retain) IBOutlet RRSGlowLabel *label;

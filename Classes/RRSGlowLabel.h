@@ -7,10 +7,10 @@
 //
 
 
-@interface RRSGlowLabel : UILabel {	
-	CGSize glowOffset;
-	UIColor *glowColor;
-	CGFloat glowAmount;
+@interface RRSGlowLabel : UILabel {
+    CGSize glowOffset;
+    UIColor *glowColor;
+    CGFloat glowAmount;
 }
 
 @property (nonatomic, assign) CGSize glowOffset;
