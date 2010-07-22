@@ -42,7 +42,6 @@
 
 - (void)dealloc {
     [glowColor release];
-    self.glowColor = nil;
     [super dealloc];
 }
 
