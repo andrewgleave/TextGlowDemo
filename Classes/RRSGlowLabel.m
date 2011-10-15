@@ -9,6 +9,10 @@
 #import "RRSGlowLabel.h"
 
 
+@interface RRSGlowLabel()
+- (void)initialize;
+@end
+
 @implementation RRSGlowLabel
 
 @synthesize glowColor, glowOffset, glowAmount;
@@ -24,13 +28,22 @@
     }
 }
 
+- (void)initialize {
+    colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+    
+    self.glowOffset = CGSizeMake(0.0, 0.0);
+    self.glowAmount = 0.0;
+    self.glowColor = [UIColor clearColor];
+}
+
+- (void)awakeFromNib {
+    [self initialize];
+}
+
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if(self != nil) {
-        colorSpaceRef = CGColorSpaceCreateDeviceRGB();
-        self.glowOffset = CGSizeMake(0.0, 0.0);
-        self.glowAmount = 0.0;
-        self.glowColor = [UIColor clearColor];
+        [self initialize];
     }
     return self;
 }
