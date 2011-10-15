@@ -9,16 +9,41 @@
 #import "RRSGlowLabel.h"
 
 
+@interface RRSGlowLabel()
+- (void)initialize;
+@end
+
 @implementation RRSGlowLabel
 
 @synthesize glowColor, glowOffset, glowAmount;
 
+- (void)setGlowColor:(UIColor *)newGlowColor
+{
+    if (newGlowColor != glowColor) {
+        [glowColor release];
+        CGColorRelease(glowColorRef);
+
+        glowColor = [newGlowColor retain];
+        glowColorRef = CGColorCreate(colorSpaceRef, CGColorGetComponents(glowColor.CGColor));
+    }
+}
+
+- (void)initialize {
+    colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+    
+    self.glowOffset = CGSizeMake(0.0, 0.0);
+    self.glowAmount = 0.0;
+    self.glowColor = [UIColor clearColor];
+}
+
+- (void)awakeFromNib {
+    [self initialize];
+}
+
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if(self != nil) {
-        self.glowOffset = CGSizeMake(0.0, 0.0);
-        self.glowAmount = 0.0;
-        self.glowColor = [UIColor clearColor];
+        [self initialize];
     }
     return self;
 }
@@ -28,19 +53,16 @@
     CGContextSaveGState(context);
     
     CGContextSetShadow(context, self.glowOffset, self.glowAmount);
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    
-    CGColorRef color = CGColorCreate(colorSpace, CGColorGetComponents(self.glowColor.CGColor));
-    CGContextSetShadowWithColor(context, self.glowOffset, self.glowAmount, color);
+    CGContextSetShadowWithColor(context, self.glowOffset, self.glowAmount, glowColorRef);
     
     [super drawTextInRect:rect];
     
-    CGColorRelease(color);
-    CGColorSpaceRelease(colorSpace);
     CGContextRestoreGState(context);
 }
 
 - (void)dealloc {
+    CGColorRelease(glowColorRef);
+    CGColorSpaceRelease(colorSpaceRef);
     [glowColor release];
     [super dealloc];
 }

@@ -11,6 +11,9 @@
     CGSize glowOffset;
     UIColor *glowColor;
     CGFloat glowAmount;
+
+    CGColorSpaceRef colorSpaceRef;
+    CGColorRef glowColorRef;
 }
 
 @property (nonatomic, assign) CGSize glowOffset;
